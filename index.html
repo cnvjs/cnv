@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>* { margin:0; padding:0; -webkit-overflow-scrolling: none;} 
+        body { width:100vw; height:100vh;  margin: 0; overflow-x: hidden;pointer-events: none}
+        canvas{box-sizing: border-box;display: block;}</style>
+</head>
+<body>
+  //jahanabev git commit test 
+<canvas id="cnv"></canvas>
+<script src="cnv_modules/cnv_dom.js"></script>
+<script src="cnv_modules/dom.js"></script>
+<script src="cnv_modules/cnv_map.js"></script>
+
+
+<script>
+
+
+let device = {
+    w:0,
+    h:0,
+    scrollY:0,
+    scrollX:0,
+    z:0
+}
+
+dom.style({
+  elem:{
+    width: document.documentElement.clientWidth / 4 - 6*2,
+    height:300,
+    margin: 6
+  }, 
+  elem2:{
+    width: document.documentElement.clientWidth/4 - 2*6,
+    height:500,
+    margin: 6, 
+  },
+  inner:{
+    width:100,
+    height:100,
+    background: 'red'
+  },
+  main:{
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight,
+    margin:0.1,
+    background: '#2196f3'
+  }
+})
+
+dom.create([
+    div({
+      class:'main',
+      inner:[
+        div({
+          class:'inner'
+        })
+      ]
+    }),
+    div({
+      class:'elem',
+      inner:[
+        div({
+          class:'inner'
+        })
+      ]
+    }),
+
+    div({
+      class:'elem2',
+    }),
+
+    div({
+      class:'elem',
+    }),
+    div({
+      class:'elem2',
+    }),
+    div({
+      class:'elem2',
+    }),
+    div({
+      class:'elem2',
+    }),
+    div({
+      class:'elem2',
+    }),
+    div({
+      class:'elem2',
+    }),
+    div({
+      class:'elem2',
+    }),
+    div({
+      class:'elem2',
+    }),
+    div({
+      class:'elem2',
+    }),
+
+])
+
+
+
+  window.addEventListener('resize', resizeCanvas, false);
+        
+  function resizeCanvas() {
+    cv.width = document.documentElement.clientWidth;
+    cv.height = document.documentElement.clientHeight*2;
+    device.w = document.documentElement.clientWidth;
+    device.h = document.documentElement.clientHeight;
+  }
+  
+  resizeCanvas()
+
+  var i = new Image;
+    i.onload = () => {
+     // c.drawImage(i,64,60, device.w/3, 430)
+    }
+    var img2 = new Image;
+    img2.onload = () => {
+     // c.drawImage(img2,device.w/3 +74, 60, device.w/100*60-64, 430)
+    }
+    i.src = 'https://i.pinimg.com/474x/0b/b6/53/0bb653843deee64be2a93308ea911730.jpg';
+    img2.src = "https://root-nation.com/wp-content/uploads/2022/06/top-10-tws-01-696x392.jpg";
+  function drawStuff() {
+    //c.clearRect(0, window.scrollY, cv.width, cv.height);
+    //clear canvas
+    
+    if(i) c.drawImage(i,64,60, device.w/3, 330)
+    if(img2) c.drawImage(img2,device.w/3 +74, 60, device.w/100*60-64, 330)
+
+    c.fillStyle = "#000";
+    c.fillRect(device.z, 500, 50, 50);
+    c.fillRect(device.z, 560, 50, 50);
+    c.fillRect(device.z, 620, 50, 50);
+
+
+    if(device.z > 600){device.z =0}else{device.z += 1}
+    
+    //nav
+    
+    //end nav
+    c.font = "30px arial";
+    c.fillStyle = "#fff";
+    c.textAlign = "center";
+    c.fillText("Hello World", 10, 35+window.scrollY);
+  }
+
+</script>
+<script>
+   setInterval(()=>{
+    // c.clearRect(0, window.scrollY, cv.width, cv.height);
+  // drawStuff()
+  },1000/60)
+
+  dom.render()
+</script>
+
+</body>
+</html>
