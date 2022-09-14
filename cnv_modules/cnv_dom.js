@@ -23,6 +23,5 @@ img = (e) => {
 button = (e) => {
   let a = e;
   a['elem'] = 'button'
-  a['']
   return a 
 }
