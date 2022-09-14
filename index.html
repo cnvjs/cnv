@@ -15,7 +15,7 @@
 <script src="cnv_modules/cnv_dom.js"></script>
 <script src="cnv_modules/dom.js"></script>
 <script src="cnv_modules/cnv_map.js"></script>
-
+<script src="src/style.js"></script>
 
 <script>
 
@@ -28,29 +28,6 @@ let device = {
     z:0
 }
 
-dom.style({
-  elem:{
-    width: document.documentElement.clientWidth / 4 - 6*2,
-    height:300,
-    margin: 6
-  }, 
-  elem2:{
-    width: document.documentElement.clientWidth/4 - 2*6,
-    height:500,
-    margin: 6, 
-  },
-  inner:{
-    width:100,
-    height:100,
-    background: 'red'
-  },
-  main:{
-    width: document.documentElement.clientWidth,
-    height: document.documentElement.clientHeight,
-    margin:0.1,
-    background: '#2196f3'
-  }
-})
 
 dom.create([
     div({
@@ -110,7 +87,7 @@ dom.create([
         
   function resizeCanvas() {
     cv.width = document.documentElement.clientWidth;
-    cv.height = document.documentElement.clientHeight*2;
+    cv.height = document.documentElement.clientHeight*4;
     device.w = document.documentElement.clientWidth;
     device.h = document.documentElement.clientHeight;
   }
