@@ -19,14 +19,9 @@ const dom = {
     },
     render(){
         this.d.forEach((e)=>{
-           domEl[e.elem](cnvMap.buildMap(e.style.width, e.style.height, e.style, e.inner), e.style)
+          //  console.log(e.elem)
+            cnvMap.buildMap(e.elem, e.style.width, e.style.height, e.style, e.inner)
           })
     }
 }
 
-const domEl = {
-    div(xy,style){
-        c.fillStyle = `${(style.background)?style.background:'#000'}`;
-        c.fillRect(xy[0], xy[1], style.width, style.height);
-    }
-}

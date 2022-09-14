@@ -13,12 +13,13 @@ dom.style({
     inner:{
       width:100,
       height:100,
-      background: 'red'
+      background: 'red',
+      margin:6
     },
     main:{
       width: document.documentElement.clientWidth-14,
       height: document.documentElement.clientHeight,
-      margin:0.1,
-      background: '#212121'
+      margin:10,
+      background: '#21212163'
     }
   })
