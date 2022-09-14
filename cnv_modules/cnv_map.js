@@ -50,18 +50,20 @@ const cnvMap = {
     
     buildInner(inner,outerIndex,positions,margin){
         inner.forEach(e=>{
-            this.innerSpaceX[outerIndex] = 0
+           if(!this.innerSpaceX[outerIndex]) this.innerSpaceX[outerIndex] = 0
             this.buildMap(e.elem, e.style.width, e.style.height, e.style, e.inner, outerIndex,positions,margin)
-         
             //domEl[e.elem](this.buildMap(e.elem, e.style.width, e.style.height, e.style, e.inner, outerIndex,positions), e.style)
         })
        
     },
     getY(x,xs,outerIndex){
         let y = 0;
+        let obj =  this.history;
         if(typeof outerIndex == 'number'){
+            obj = this.innerHistory[outerIndex]
+        }
             try{
-            this.innerHistory[outerIndex].forEach(e=>{
+            obj.forEach(e=>{
                 if((e.x < x + xs && e.x + e.xs >= x + xs) || (e.x + e.xs > x && e.x + e.xs < x + xs )){   
                     if(y < e.ys + e.y){
                        if(y > e.ys){
@@ -76,20 +78,6 @@ const cnvMap = {
         }
         catch(e){
 
-        }
-        }else{
-            console.log(outerIndex)
-            this.history.forEach(e=>{
-                if((e.x < x + xs && e.x + e.xs >= x + xs) || (e.x + e.xs > x && e.x + e.xs < x + xs )){   
-                    if(y < e.ys + e.y){
-                       if(y > e.ys){
-                        y = y + e.ys - (y - e.y)
-                       }else{
-                        y = e.ys + e.y
-                    }
-                    }
-                }
-            })
         }
         
         return y

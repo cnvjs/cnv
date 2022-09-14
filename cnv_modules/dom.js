@@ -19,7 +19,6 @@ const dom = {
     },
     render(){
         this.d.forEach((e)=>{
-          //  console.log(e.elem)
             cnvMap.buildMap(e.elem, e.style.width, e.style.height, e.style, e.inner)
           })
     }

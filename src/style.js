@@ -21,5 +21,10 @@ dom.style({
       height: document.documentElement.clientHeight,
       margin:10,
       background: '#21212163'
+    },
+    eleminner:{
+      width:40,
+      height:40,
+      background:'white'
     }
   })
