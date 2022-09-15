@@ -11,16 +11,16 @@ dom.style({
       margin: 6, 
     },
     inner:{
-      width:100,
-      height:100,
+      width:105,
+      height:105,
       background: 'red',
       margin:6
     },
     main:{
-      width: document.documentElement.clientWidth-14,
+      width: document.documentElement.clientWidth-34,
       height: document.documentElement.clientHeight,
       margin:10,
-      background: '#fff'
+      background: '#000'
     },
     eleminner:{
       width:40,

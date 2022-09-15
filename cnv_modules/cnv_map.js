@@ -4,8 +4,7 @@ const cnvMap = {
     spaceX:0,
     innerSpaceX:[],
     history:[],
-    innerHistory:{},
-    buildMap(elem, x, y, style, inner, outerIndex, positions,outerMargin){
+    buildMap(obj, elem, style, inner, outerIndex, positions,outerMargin){
     let oldX = (positions) ? outerMargin + this.innerSpaceX[outerIndex] : this.spaceX, // will set inner element x position if that inner elem
         detectY = 0,
         dt = {},
@@ -13,55 +12,46 @@ const cnvMap = {
      if(style.margin) margin = style.margin
      
      if((positions)){
-        this.innerSpaceX[outerIndex] += margin*2 + x
+        this.innerSpaceX[outerIndex] += margin*2 + style.width;
      }else{
-     this.spaceX += margin*2 + x
+        this.spaceX += margin*2 + style.width
      }
 
      
-     if(this.w < oldX + margin*2 + x){
-        if((positions)){
-            this.innerSpaceX[positions] = x + margin*2
+     if(this.w < oldX + margin*2 + style.width){
+        if(positions){
+            this.innerSpaceX[outerIndex] = style.width + margin*2
         }else{
-            this.spaceX = x + margin*2
+            this.spaceX = style.width + margin*2
         }   
-        oldX = (positions) ? positions.x : 0
+        oldX = (positions) ? outerMargin : 0
      }
 
-    detectY = this.getY(oldX, x + margin*2,outerIndex)
+    detectY = this.getY(obj,oldX, style.width + margin*2,outerMargin)
     if(outerMargin) detectY += outerMargin
     dt['x'] = oldX;
     dt['y'] = detectY;
-    dt['xs'] = x + margin*2;
-    dt['ys'] = y + margin*2;
-    dt['style'] = style;
-   
+    dt['xs'] = style.width + margin*2;
+    dt['ys'] = style.height + margin*2;
+    if(inner) dt['in'] = [];
+     //console.log(oldX)
+    obj.push(dt)
      
-    if(!positions) {
-        this.history.push(dt)
-    }else{
-        this.innerHistory[outerIndex] = []
-        this.innerHistory[outerIndex].push(dt)
-    }
-    domEl[elem]([oldX+margin, detectY+ margin], style)
+    domEl[elem]([oldX+margin, detectY + margin], style)
 
-    if(inner) this.buildInner(inner, this.history.length -1 , dt, margin)
+    if(inner) this.buildInner(obj, inner, obj.length -1 , dt, margin)
     },
     
-    buildInner(inner,outerIndex,positions,margin){
+    buildInner(obj,inner,outerIndex,positions,margin){
+        this.innerSpaceX[outerIndex] = 0
         inner.forEach(e=>{
-           if(!this.innerSpaceX[outerIndex]) this.innerSpaceX[outerIndex] = 0
-            this.buildMap(e.elem, e.style.width, e.style.height, e.style, e.inner, outerIndex,positions,margin)
-            //domEl[e.elem](this.buildMap(e.elem, e.style.width, e.style.height, e.style, e.inner, outerIndex,positions), e.style)
+           //if(!this.innerSpaceX[outerIndex]) 
+            this.buildMap(obj[outerIndex].in, e.elem, e.style, e.inner, outerIndex,positions,margin)
         })
        
     },
-    getY(x,xs,outerIndex){
+    getY(obj, x,xs,outerMargin){
         let y = 0;
-        let obj =  this.history;
-        if(typeof outerIndex == 'number'){
-            obj = this.innerHistory[outerIndex]
-        }
             try{
             obj.forEach(e=>{
                 if((e.x < x + xs && e.x + e.xs >= x + xs) || (e.x + e.xs > x && e.x + e.xs < x + xs )){   
@@ -72,6 +62,9 @@ const cnvMap = {
                         y = e.ys + e.y
                     }
                     }
+
+                if(typeof outerMargin == 'number') y -= outerMargin
+
                 }
             })
         
@@ -79,7 +72,6 @@ const cnvMap = {
         catch(e){
 
         }
-        
         return y
     }
 }
