@@ -18,7 +18,7 @@ const cnvMap = {
      this.spaceX += margin*2 + x
      }
 
-
+     
      if(this.w < oldX + margin*2 + x){
         if((positions)){
             this.innerSpaceX[positions] = x + margin*2
