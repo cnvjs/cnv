@@ -20,7 +20,7 @@ dom.style({
       width: document.documentElement.clientWidth-14,
       height: document.documentElement.clientHeight,
       margin:10,
-      background: '#21212163'
+      background: '#fff'
     },
     eleminner:{
       width:40,
