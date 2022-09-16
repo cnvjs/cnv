@@ -20,7 +20,7 @@ dom.style({
     },
     innerblack:{
       background:'#212121',
-      width:ocument.documentElement.clientWidth,
+      width:document.documentElement.clientWidth,
       height:250,
     },
     mini:{
