@@ -18,6 +18,11 @@ dom.style({
       background: 'white',
       margin:6
     },
+    innerblack:{
+      background:'#212121',
+      width:ocument.documentElement.clientWidth,
+      height:250,
+    },
     mini:{
       width:50,
       height:50,
