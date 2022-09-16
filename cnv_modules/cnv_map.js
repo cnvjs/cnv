@@ -2,57 +2,66 @@ const cnvMap = {
     h: window.innerHeight,
     w: document.body.clientWidth,
     spaceX:0,
-    innerSpaceX:[],
+    innerSpaceX:{},
+    innerSpacexCounter:0,
     history:[],
-    buildMap(obj, elem, style, inner, outerIndex, positions,outerMargin){
-    let oldX = (positions) ? outerMargin + this.innerSpaceX[outerIndex] : this.spaceX, // will set inner element x position if that inner elem
-        detectY = 0,
+    buildMap(obj, elem, style, inner, outerIndex, positions,outerMargin,innerSpacexCounter){
+    let oldX = (positions) ? outerMargin + this.innerSpaceX[innerSpacexCounter] : this.spaceX, // will set inner element x position if that inner elem
+        detectY ,
         dt = {},
-        margin = 10;
-     if(style.margin) margin = style.margin
+        margin = 10,
+        width = this.w;
+     if(typeof style.margin === 'number') margin = style.margin
      
-     if((positions)){
-        this.innerSpaceX[outerIndex] += margin*2 + style.width;
+     if(positions){
+        this.innerSpaceX[innerSpacexCounter] += margin*2 + style.width;
      }else{
         this.spaceX += margin*2 + style.width
      }
 
+     if(positions) width = positions.x + positions.xs
      
-     if(this.w < oldX + margin*2 + style.width){
+     if(width < oldX + margin*2 + style.width){
         if(positions){
-            this.innerSpaceX[outerIndex] = style.width + margin*2
+            this.innerSpaceX[innerSpacexCounter] = style.width + margin*2
         }else{
             this.spaceX = style.width + margin*2
         }   
-        oldX = (positions) ? outerMargin : 0
+        oldX = (positions) ? positions.x + outerMargin : 0
      }
 
-    detectY = this.getY(obj,oldX, style.width + margin*2,outerMargin)
+     if(positions){
+        detectY = this.getY(obj,oldX, style.width + margin*2,outerMargin,positions.y)}
+     else{
+        detectY = this.getY(obj,oldX, style.width + margin*2)
+     }
+    if(positions)   console.log(positions.y)
+    if(positions) detectY += positions.y 
     if(outerMargin) detectY += outerMargin
     dt['x'] = oldX;
     dt['y'] = detectY;
     dt['xs'] = style.width + margin*2;
     dt['ys'] = style.height + margin*2;
     if(inner) dt['in'] = [];
-     //console.log(oldX)
+
     obj.push(dt)
      
     domEl[elem]([oldX+margin, detectY + margin], style)
+    
+    this.innerSpacexCounter++
 
-    if(inner) this.buildInner(obj, inner, obj.length -1 , dt, margin)
+    if(inner) this.buildInner(obj, inner, obj.length -1 , dt, margin, this.innerSpacexCounter)
     },
     
-    buildInner(obj,inner,outerIndex,positions,margin){
-        this.innerSpaceX[outerIndex] = 0
+    buildInner(obj,inner,outerIndex,positions,margin, innerSpacexCounter){
+        this.innerSpaceX[innerSpacexCounter] = positions.x
         inner.forEach(e=>{
-           //if(!this.innerSpaceX[outerIndex]) 
-            this.buildMap(obj[outerIndex].in, e.elem, e.style, e.inner, outerIndex,positions,margin)
+            this.buildMap(obj[outerIndex].in, e.elem, e.style, e.inner, outerIndex,positions,margin,innerSpacexCounter)
         })
        
     },
-    getY(obj, x,xs,outerMargin){
+    getY(obj, x,xs,outerMargin,positions){
         let y = 0;
-            try{
             obj.forEach(e=>{
                 if((e.x < x + xs && e.x + e.xs >= x + xs) || (e.x + e.xs > x && e.x + e.xs < x + xs )){   
                     if(y < e.ys + e.y){
@@ -62,16 +71,13 @@ const cnvMap = {
                         y = e.ys + e.y
                     }
                     }
-
-                if(typeof outerMargin == 'number') y -= outerMargin
+                
+                    if(typeof positions == 'number') y -= positions
+                    if(typeof outerMargin == 'number') y -= outerMargin
 
                 }
             })
         
-        }
-        catch(e){
-
-        }
         return y
     }
 }
@@ -79,7 +85,20 @@ const cnvMap = {
 
 const domEl = {
     div(xy,style){
+        
+        c.beginPath();
+        c.roundRect(xy[0],xy[1],style.width, style.height,[style.borderRadius]);
         c.fillStyle = `${(style.background)?style.background:'#000'}`;
-        c.fillRect(xy[0], xy[1], style.width, style.height);
+        c.fill();
+        
+    },
+    text(xy,style){
+    c.font = "60px arial";
+    c.fillStyle = style.color;
+    c.textAlign = "center";
+    
+    c.textBaseline = "hanging";
+    c.fillText(style.text, xy[0]+ style.width/2, xy[1]);
+    let text = c.measureText(style.text);
     }
 }

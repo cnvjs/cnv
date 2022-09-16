@@ -38,10 +38,10 @@ dom.create([
         div({
           class:'inner'
         }),
-        div({
-          class:'inner',
-        })
-        ,
+        text({
+          class:'text',
+          text: 'Hello world'
+        }),
         div({
           class:'inner',
         })
@@ -91,15 +91,39 @@ dom.create([
     }),
     div({
       class:'elem',
-      // inner:[
-      //   div({
-      //     class:'inner'
-      //   })
-      // ]
+      inner:[
+        div({
+          class:'inner',
+          inner:[
+            div({
+              class:'mini'
+            }),
+            div({
+              class:'mini',
+              inner:[
+                div({
+                  class:'minimini'
+                })
+              ]
+            }),
+            div({
+              class:'mini'
+            })
+          ]
+        }),
+        div({
+          class:'inner',
+          
+        }),
+        div({
+          class:'inner'
+        })
+      ]
     }),
 
     div({
-      class:'elem2',
+      class:'elem2'
+      
     }),
 
     div({
@@ -179,6 +203,9 @@ dom.create([
     c.fillText("Hello World", 10, 35+window.scrollY);
   }
 
+
+  
+
 </script>
 <script>
    setInterval(()=>{
@@ -187,6 +214,8 @@ dom.create([
   },1000/60)
 
   dom.render()
+
+  
 </script>
 
 </body>
