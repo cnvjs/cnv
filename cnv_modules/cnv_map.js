@@ -85,12 +85,10 @@ const cnvMap = {
 
 const domEl = {
     div(xy,style){
-        
         c.beginPath();
         c.roundRect(xy[0],xy[1],style.width, style.height,[style.borderRadius]);
         c.fillStyle = `${(style.background)?style.background:'#000'}`;
         c.fill();
-        
     },
     text(xy,style){
     c.font = "60px arial";
