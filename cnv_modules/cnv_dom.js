@@ -8,7 +8,7 @@ text = (e) => {
   let a = e;
   if(dom.s[e.class]) a['style'] = dom.s[e.class]
   if(e.text) a['style']['text'] = e.text
-  console.log(e.text)
+  // console.log(e.text)
   a['elem'] = 'text'
   return a 
 },

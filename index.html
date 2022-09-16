@@ -11,6 +11,7 @@
 </head>
 <body>
 
+
 <canvas id="cnv"></canvas>
 <script src="cnv_modules/cnv_dom.js"></script>
 <script src="cnv_modules/dom.js"></script>
@@ -18,9 +19,6 @@
 <script src="src/style.js"></script>
 
 <script>
-
-
-
 
 let device = {
     w:0,
@@ -211,9 +209,16 @@ dom.create([
    setInterval(()=>{
     // c.clearRect(0, window.scrollY, cv.width, cv.height);
   // drawStuff()
-  },1000/60)
+  },1000/60 )
 
   dom.render()
+
+
+var img = new Image;
+img.onload = function(){
+  c.drawImage(img,0,0);
+}
+img.src = 'https://i.pinimg.com/564x/59/20/18/592018238f2bc0da439890c28014d98f.jpg';
 
   
 </script>

@@ -98,5 +98,8 @@ const domEl = {
     c.textBaseline = "hanging";
     c.fillText(style.text, xy[0]+ style.width/2, xy[1]);
     let text = c.measureText(style.text);
+    },
+    img(xy,style){
+        
     }
 }
