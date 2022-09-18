@@ -1,20 +1,17 @@
-const 
-input = (e) => {
+let counterDom = 0;
+
+const input = (e) => {
   let a = e;
-  a['elem'] = 'input'
-  return a 
+  a['elem'] = 'input';
+  return a
 },
 text = (e) => {
   let a = e;
-  if(dom.s[e.class]) a['style'] = dom.s[e.class]
-  if(e.text) a['style']['text'] = e.text
-  // console.log(e.text)
   a['elem'] = 'text'
   return a 
 },
 div = (e) =>{
   let a = e;
-  if(dom.s[e.class]) a['style'] = dom.s[e.class]
   a['elem'] = 'div'
   return a
 },

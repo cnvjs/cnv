@@ -13,6 +13,7 @@
 
 
 <canvas id="cnv"></canvas>
+<script src="cnv_modules/cnv_style_compiler.js"></script>
 <script src="cnv_modules/cnv_dom.js"></script>
 <script src="cnv_modules/dom.js"></script>
 <script src="cnv_modules/cnv_map.js"></script>
@@ -31,7 +32,7 @@ let device = {
 
 dom.create([
     div({
-      class:'main',
+      class:'main test',
       inner:[
         div({
           class:'innerblack'
@@ -39,130 +40,52 @@ dom.create([
         text({
           class:'text',
           text: 'Hello world'
-        }),
-        // div({
-        //   class:'inner',
-        // })
-        // ,
-        // div({
-        //   class:'inner',
-        // })
-        // ,
-        // div({
-        //   class:'inner',
-        // })
-        // ,
-        // div({
-        //   class:'inner',
-        // })
-        // ,
-        // div({
-        //   class:'inner',
-        // })
-        // ,
-        // div({
-        //   class:'inner',
-        // })
-        // ,
-        // div({
-        //   class:'inner',
-        // }),
-        // div({
-        //   class:'inner',
-        // }),
-        // div({
-        //   class:'inner',
-        // }),
-        // div({
-        //   class:'inner',
-        // }),
-        // div({
-        //   class:'inner',
-        // }),
-        // div({
-        //   class:'inner',
-        // })  ,
-        // div({
-        //   class:'inner',
-        // })
+        })
       ] 
     }),
     div({
-      class:'elem',
+      class:'content',
       inner:[
-        div({
-          class:'inner',
-          inner:[
-            div({
-              class:'mini'
-            }),
-            div({
-              class:'mini',
-              inner:[
-                div({
-                  class:'minimini'
-                })
-              ]
-            }),
-            div({
-              class:'mini'
-            })
-          ]
-        }),
-        div({
-          class:'inner',
-          
-        }),
-        div({
-          class:'inner'
-        })
-      ]
-    }),
-
+        
     div({
-      class:'elem2'
-      
+      class:'elem',
+    }),
+        div({
+          class:'elem elem2 blue'  
     }),
 
     div({
       class:'elem',
     }),
     div({
-      class:'elem2',
+      class:'elem elem2 blue',
     }),
     div({
-      class:'elem2',
+      class:'elem elem2 ',
     }),
     div({
-      class:'elem2',
+      class:'elem elem2 lime',
     }),
     div({
-      class:'elem2',
-    }),
-    div({
-      class:'elem2',
-    }),
-    div({
-      class:'elem2',
-    }),
-    div({
-      class:'elem2',
-    }),
-    div({
-      class:'elem2',
-    }),
-
+      class:'elem elem2',
+    })
+]
+    })
 ])
 
 
-
-  //window.addEventListener('resize', resizeCanvas, false);
+// setTimeout(()=>{
+//   dom.s.test.height = '40%'
+// },500)
+  window.addEventListener('resize', resizeCanvas, false);
         
   function resizeCanvas() {
     cv.width = document.documentElement.clientWidth;
     cv.height = document.documentElement.clientHeight*4;
     device.w = document.documentElement.clientWidth;
     device.h = document.documentElement.clientHeight;
+    cnvMap.update()
+
   }
   
   resizeCanvas()
@@ -206,15 +129,21 @@ dom.create([
 
 </script>
 <script>
+  
+    //dom.render()
    setInterval(()=>{
+    
     // c.clearRect(0, window.scrollY, cv.width, cv.height);
-  // drawStuff()
+  // cnvMap.update()
   },1000/60 )
 
-  dom.render()
+
 
 const imgList = [
-  {img: new Image}
+  {
+    img: new Image,
+    
+  }
 ]
 imgList.forEach(e=>{
   e.onload = function(){
@@ -223,7 +152,28 @@ imgList.forEach(e=>{
 }
 }) 
 
-  
+
+      //   c.beginPath();
+      //   c.roundRect(20,20,100, 100,[20]);
+      //   c.fillStyle = '#fff';
+      //   c.fill();
+      //   //clip
+      //   c.save() 
+      //   c.clip();
+      //   //
+      //   c.beginPath();
+      //   c.roundRect(10,10,100, 100,[20]);
+      //   c.fillStyle = 'red';
+      //   c.fill();
+        
+      //   c.restore();
+
+      //   c.beginPath();
+      //   c.roundRect(30,0,100, 100,[20]);
+      //   c.fillStyle = '#ff0000';
+      //  // c.filter = 'blur(10px)';
+      //   c.fill();
+    
 </script>
 
 </body>

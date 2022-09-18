@@ -1,18 +1,32 @@
 const cnvMap = {
     h: window.innerHeight,
     w: document.body.clientWidth,
+    maxH:0,
     spaceX:0,
     innerSpaceX:{},
     innerSpacexCounter:0,
     history:[],
+    update(){
+        sty.x =document.body.clientWidth;
+        sty.y = window.innerHeight;
+        this.h = window.innerHeight;
+        this.w = document.body.clientWidth;
+        this.spaceX = 0;
+        this.innerSpaceX = {};
+        this.innerSpacexCounter = 0;
+        this.history = [];
+        c.clearRect(0, window.scrollY, cv.width, cv.height);
+        dom.render()
+    },
     buildMap(obj, elem, style, inner, outerIndex, positions,outerMargin,innerSpacexCounter){
     let oldX = (positions) ? outerMargin + this.innerSpaceX[innerSpacexCounter] : this.spaceX, // will set inner element x position if that inner elem
         detectY ,
         dt = {},
-        margin = 10,
+        margin = 0,
         width = this.w;
-     if(typeof style.margin === 'number') margin = style.margin
-     
+
+        if(typeof style.margin === 'number') margin = style.margin
+
      if(positions){
         this.innerSpaceX[innerSpacexCounter] += margin*2 + style.width;
      }else{
@@ -35,7 +49,6 @@ const cnvMap = {
      else{
         detectY = this.getY(obj,oldX, style.width + margin*2)
      }
-    if(positions)   console.log(positions.y)
     if(positions) detectY += positions.y 
     if(outerMargin) detectY += outerMargin
     dt['x'] = oldX;
@@ -46,8 +59,8 @@ const cnvMap = {
 
     obj.push(dt)
      
-    domEl[elem]([oldX+margin, detectY + margin], style)
-    
+    domEl[elem]([oldX+margin, detectY + margin - style.translateY], style)
+
     this.innerSpacexCounter++
 
     if(inner) this.buildInner(obj, inner, obj.length -1 , dt, margin, this.innerSpacexCounter)
@@ -56,9 +69,21 @@ const cnvMap = {
     buildInner(obj,inner,outerIndex,positions,margin, innerSpacexCounter){
         this.innerSpaceX[innerSpacexCounter] = positions.x
         inner.forEach(e=>{
+            let s = {}
+            e.class.split(" ").forEach(cl=>{    
+                s = Object.assign(s, dom.s[cl]);
+              })
+
+              if(document.body.clientWidth < 700){
+                e.class.split(" ").forEach(cl=>{
+                  s = Object.assign(s, dom.s.laptop[cl]);
+                })
+              }
+
+              e['style'] = sty.set(s, positions.xs - positions.x - margin*2)
+            if(e.text) e['style']['text'] = e.text
             this.buildMap(obj[outerIndex].in, e.elem, e.style, e.inner, outerIndex,positions,margin,innerSpacexCounter)
         })
-       
     },
     getY(obj, x,xs,outerMargin,positions){
         let y = 0;
@@ -71,7 +96,6 @@ const cnvMap = {
                         y = e.ys + e.y
                     }
                     }
-                
                     if(typeof positions == 'number') y -= positions
                     if(typeof outerMargin == 'number') y -= outerMargin
 
@@ -85,7 +109,7 @@ const cnvMap = {
 
 const domEl = {
     div(xy,style){
-        c.beginPath();
+        c.beginPath()
         c.roundRect(xy[0],xy[1],style.width, style.height,[style.borderRadius]);
         c.fillStyle = `${(style.background)?style.background:'#000'}`;
         c.fill();
@@ -94,9 +118,8 @@ const domEl = {
     c.font = "60px arial";
     c.fillStyle = style.color;
     c.textAlign = "center";
-    
     c.textBaseline = "hanging";
-    c.fillText(style.text, xy[0]+ style.width/2, xy[1]);
+    c.fillText(style.text, xy[0] + style.width/2, xy[1]);
     let text = c.measureText(style.text);
     },
     img(xy,style){
