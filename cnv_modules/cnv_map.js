@@ -8,7 +8,7 @@ const cnvMap = {
     history:[],
     update(){
         sty.x =document.body.clientWidth;
-        sty.y = window.innerHeight;
+        sty.y = window.innerHeight;     
         this.h = window.innerHeight;
         this.w = document.body.clientWidth;
         this.spaceX = 0;
@@ -18,7 +18,7 @@ const cnvMap = {
         c.clearRect(0, window.scrollY, cv.width, cv.height);
         dom.render()
     },
-    buildMap(obj, elem, style, inner, outerIndex, positions,outerMargin,innerSpacexCounter){
+    buildMap(obj, elem, style, inner, positions, outerMargin,innerSpacexCounter,outerClass){
     let oldX = (positions) ? outerMargin + this.innerSpaceX[innerSpacexCounter] : this.spaceX, // will set inner element x position if that inner elem
         detectY ,
         dt = {},
@@ -45,8 +45,8 @@ const cnvMap = {
      }
 
      if(positions){
-        detectY = this.getY(obj,oldX, style.width + margin*2,outerMargin,positions.y)}
-     else{
+        detectY = this.getY(obj,oldX, style.width + margin*2,outerMargin,positions.y)
+    }else{
         detectY = this.getY(obj,oldX, style.width + margin*2)
      }
     if(positions) detectY += positions.y 
@@ -56,33 +56,35 @@ const cnvMap = {
     dt['xs'] = style.width + margin*2;
     dt['ys'] = style.height + margin*2;
     if(inner) dt['in'] = [];
-
     obj.push(dt)
-     
+    
+    if(outerClass){
+    let m = 0;
+    obj.forEach(e=>{
+     if( dt.y + dt.ys > m) m = dt.y + dt.ys - positions.y - outerMargin
+    })
+    dom.s[outerClass].heightAuto = m
+    }
     domEl[elem]([oldX+margin, detectY + margin - style.translateY], style)
-
+    
     this.innerSpacexCounter++
 
-    if(inner) this.buildInner(obj, inner, obj.length -1 , dt, margin, this.innerSpacexCounter)
+    if(inner) this.buildInner(obj, inner, obj.length -1 , dt, margin, this.innerSpacexCounter,style.class)
     },
     
-    buildInner(obj,inner,outerIndex,positions,margin, innerSpacexCounter){
+    buildInner(obj,inner,outerIndex,positions,margin, innerSpacexCounter,outerClass){
         this.innerSpaceX[innerSpacexCounter] = positions.x
         inner.forEach(e=>{
             let s = {}
             e.class.split(" ").forEach(cl=>{    
                 s = Object.assign(s, dom.s[cl]);
+                // if(dom.s[cl]) console.log(dom.s[cl]['heightAuto'])
+                if(dom.s[cl]) if(dom.s[cl]['heightAuto']) s['class'] = cl
+                if(document.body.clientWidth < 700) s = Object.assign(s, dom.s.laptop[cl]);
               })
-
-              if(document.body.clientWidth < 700){
-                e.class.split(" ").forEach(cl=>{
-                  s = Object.assign(s, dom.s.laptop[cl]);
-                })
-              }
-
               e['style'] = sty.set(s, positions.xs - positions.x - margin*2)
             if(e.text) e['style']['text'] = e.text
-            this.buildMap(obj[outerIndex].in, e.elem, e.style, e.inner, outerIndex,positions,margin,innerSpacexCounter)
+            this.buildMap(obj[outerIndex].in, e.elem, e.style, e.inner,positions,margin,innerSpacexCounter,outerClass)
         })
     },
     getY(obj, x,xs,outerMargin,positions){

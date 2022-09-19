@@ -17,17 +17,13 @@ const dom = {
               let s = {}
               e.class.split(" ").forEach(cl=>{
                 s = Object.assign(s, dom.s[cl]);
+                if(dom.s[cl].heightAuto) s['class'] = cl
+                if(document.body.clientWidth < 700) s = Object.assign(s, dom.s.laptop[cl]);
               })
-
-              if(document.body.clientWidth < 700){
-                e.class.split(" ").forEach(cl=>{
-                  s = Object.assign(s, dom.s.laptop[cl]);
-                })
-              }
               e['style'] = sty.set(s)
-            
-            if(e.text) e['style']['text'] = e.text
-            cnvMap.buildMap(cnvMap.history, e.elem, e.style, e.inner)
+              if(e.text) e['style']['text'] = e.text;
+
+              cnvMap.buildMap(cnvMap.history, e.elem, e.style, e.inner)
           })
     }
 }

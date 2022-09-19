@@ -7,9 +7,10 @@ dom.style({
   },
   content:{
     width:'94%',
-    height:'200%',
+    //height:'200%',
+    heightAuto:600,
     margin:'3%',
-    background:'transparent'
+    background:'gray'
   },
     test:{
       width:'100%',
@@ -65,7 +66,7 @@ dom.style({
     },
     text:{
       color: 'white',
-      width:document.documentElement.clientWidth-14,
+      width:'100%',
       height:60,
       margin:0
     },
