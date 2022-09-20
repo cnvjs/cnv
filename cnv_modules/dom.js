@@ -22,7 +22,6 @@ const dom = {
               })
               e['style'] = sty.set(s)
               if(e.text) e['style']['text'] = e.text;
-
               cnvMap.buildMap(cnvMap.history, e.elem, e.style, e.inner)
           })
     }

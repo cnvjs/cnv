@@ -19,53 +19,48 @@ const cnvMap = {
         dom.render()
     },
     buildMap(obj, elem, style, inner, positions, outerMargin,innerSpacexCounter,outerClass){
-    let oldX = (positions) ? outerMargin + this.innerSpaceX[innerSpacexCounter] : this.spaceX, // will set inner element x position if that inner elem
+    let oldX = (positions) ? outerMargin[1] + this.innerSpaceX[innerSpacexCounter] : this.spaceX, // will set inner element x position if that inner elem
         detectY ,
         dt = {},
         margin = 0,
         width = this.w;
 
-        if(typeof style.margin === 'number') margin = style.margin
+        if(typeof style.margin === 'object') margin = style.margin
 
      if(positions){
-        this.innerSpaceX[innerSpacexCounter] += margin*2 + style.width;
+        this.innerSpaceX[innerSpacexCounter] += margin[0] + margin[1] + style.width;
      }else{
-        this.spaceX += margin*2 + style.width
+        this.spaceX += margin[0] + margin[1] + style.width
      }
 
      if(positions) width = positions.x + positions.xs
      
-     if(width < oldX + margin*2 + style.width){
+     if(width < oldX +margin[0] + margin[1]+ style.width){
         if(positions){
-            this.innerSpaceX[innerSpacexCounter] = style.width + margin*2
+            this.innerSpaceX[innerSpacexCounter] = style.width + margin[0] + margin[1]
         }else{
-            this.spaceX = style.width + margin*2
+            this.spaceX = style.width + margin[0] + margin[1]
         }   
-        oldX = (positions) ? positions.x + outerMargin : 0
+        oldX = (positions) ? positions.x + outerMargin[1] : 0
      }
 
      if(positions){
-        detectY = this.getY(obj,oldX, style.width + margin*2,outerMargin,positions.y)
+        detectY = this.getY(obj,oldX, style.width + margin[0] + margin[1] ,outerMargin,positions.y)
     }else{
-        detectY = this.getY(obj,oldX, style.width + margin*2)
+        detectY = this.getY(obj,oldX, style.width + margin[0] + margin[1])
      }
     if(positions) detectY += positions.y 
-    if(outerMargin) detectY += outerMargin
+    if(outerMargin) detectY += outerMargin[2]
     dt['x'] = oldX;
     dt['y'] = detectY;
-    dt['xs'] = style.width + margin*2;
-    dt['ys'] = style.height + margin*2;
+    dt['xs'] = style.width + margin[0] + margin[1];
+    dt['ys'] = style.height + margin[2] + margin[3];
     if(inner) dt['in'] = [];
     obj.push(dt)
     
-    if(outerClass){
-    let m = 0;
-    obj.forEach(e=>{
-     if( dt.y + dt.ys > m) m = dt.y + dt.ys - positions.y - outerMargin
-    })
-    dom.s[outerClass].heightAuto = m
-    }
-    domEl[elem]([oldX+margin, detectY + margin - style.translateY], style)
+    if(outerClass) dom.s[outerClass].heightAuto =  Math.max.apply(null, cnvMap.history[2].in.map(o=>o.y+ o.ys)) - positions.y - outerMargin[2]
+    
+    domEl[elem]([oldX + margin[0] , detectY + margin[2] - style.translateY], style)
     
     this.innerSpacexCounter++
 
@@ -78,11 +73,10 @@ const cnvMap = {
             let s = {}
             e.class.split(" ").forEach(cl=>{    
                 s = Object.assign(s, dom.s[cl]);
-                // if(dom.s[cl]) console.log(dom.s[cl]['heightAuto'])
                 if(dom.s[cl]) if(dom.s[cl]['heightAuto']) s['class'] = cl
                 if(document.body.clientWidth < 700) s = Object.assign(s, dom.s.laptop[cl]);
               })
-              e['style'] = sty.set(s, positions.xs - positions.x - margin*2)
+              e['style'] = sty.set(s, positions.xs - positions.x - (margin[0] + margin[1]))
             if(e.text) e['style']['text'] = e.text
             this.buildMap(obj[outerIndex].in, e.elem, e.style, e.inner,positions,margin,innerSpacexCounter,outerClass)
         })
@@ -99,7 +93,7 @@ const cnvMap = {
                     }
                     }
                     if(typeof positions == 'number') y -= positions
-                    if(typeof outerMargin == 'number') y -= outerMargin
+                    if(typeof outerMargin == 'object') y -= outerMargin[2]
 
                 }
             })

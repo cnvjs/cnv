@@ -6,14 +6,12 @@ const input = (e) => {
   return a
 },
 text = (e) => {
-  let a = e;
-  a['elem'] = 'text'
-  return a 
+  e['elem'] = 'text'
+  return e
 },
 div = (e) =>{
-  let a = e;
-  a['elem'] = 'div'
-  return a
+  e['elem'] = 'div'
+  return e
 },
 img = (e) => {
   let a = e;

@@ -6,18 +6,17 @@ dom.style({
     background:'#bf0'
   },
   content:{
-    width:'94%',
+    width:'90%',
     //height:'200%',
     heightAuto:600,
-    margin:'3%',
-    background:'gray'
+    margin:['5%','5%','1%','0%'],
+    background:'transparent'
   },
     test:{
       width:'100%',
       height:'100%',
       background:'#000',
       margin:0,
-
     },
     elem:{
       width: '25%',
@@ -70,7 +69,18 @@ dom.style({
       height:60,
       margin:0
     },
+    title:{
+      color: 'black',
+      width:'100%',
+      height:50,
+      margin: [0,0,30,10]
+    },
     laptop:{
+      content:{
+        width:'96%',
+        margin:['2%','2%','1%','0%'],
+       
+      },
       elem:{
         width: '50%',
       },
